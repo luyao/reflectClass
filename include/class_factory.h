@@ -11,14 +11,36 @@ typedef ClassFactoryDict::const_iterator ClassFactoryDictCIter;
 
 static ClassFactoryDict& _getMap();
 
+class NamePrinter{
+public:
+	NamePrinter():name_("Base class"){}
+
+	explicit NamePrinter(const std::string &name):name_(name){}
+
+	virtual std::string GetClassName()const{
+		return name_;
+	}
+
+	virtual ~NamePrinter(){}
+protected:
+	std::string name_;
+};
+
 #define DEFINE_CLASS(class_name) \
-	const char class_name##Argv[] = #class_name;\
+	extern char class_name##Argv[];\
 	class class_name: public Register<class_name, class_name##Argv>
 
-//#define DEFINE_BASE_CLASS(class_name)
+#define DEFINE_INTERFACE(class_name)\
+	class class_name: public NamePrinter
+
+//if you define the class in the header file, you must declear it in
+//the source file
+//TODO: find a subsitution of the solution
+#define DECLEAR_CLASS(class_name) \
+	char class_name##Argv[] = #class_name;
 
 #define DEFINE_CLASS_EX(class_name, father_class)\
-	const char class_name##Argv[] = #class_name;\
+	extern char class_name##Argv[];\
 	class class_name:public Register<class_name,class_name##Argv>, public father_class
 
 class ClassFactory{
@@ -59,9 +81,8 @@ static ClassFactoryDict& _getMap(){
 }
 
 template < class T, const char name[], int ClassType = DEFAULT> 
-class Register{
+class Register : public NamePrinter{
 public:
-	std::string GetClassName()const{return name_;}
 	static void *CreateInstance() {
 		switch(ClassType){
 			case DEFAULT:
@@ -78,10 +99,10 @@ public:
 public:
 	static const RegistyClass cRegist_;
 protected:
-	Register() : name_(name){
+	Register() : NamePrinter(name){
 		cRegist_.init();
-	} //this class only be used as base class
-	std::string name_;
+	}
+	//this class only be used as base class
 };
 
 template < class T, const char name[], int ClassType>

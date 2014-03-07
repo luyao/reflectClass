@@ -20,6 +20,8 @@
 
 #include "class_define.h"
 
+DECLEAR_CLASS(Student);
+
 void Student::eat()const{
 	cout<<"Student eat"<<endl;
 }
@@ -28,11 +30,6 @@ void Student::talk()const{
 	using namespace std;
 	cout<<"Student talk"<<endl;
 }
-
-std::string Student::GetClassName()const{
-	return this->GetClassName();
-}
-
 
 
 
