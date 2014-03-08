@@ -1,22 +1,10 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 izptec.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- 
- 
-/**
- * @file test/class_define.h
- * @author YAO LU(luyao@izptec.com)
- * @date 2014/03/07 22:23:57
- * @version 1.0 
- * @brief 
- *  
- **/
-
-
+/** 
+ * @file class_define.h
+ * @Synopsis  
+ * @author Yao lu
+ * @version 1.0
+ * @date 2014-03-08
+ */
 #ifndef  __TEST_CLASS_DEFINE_H_
 #define  __TEST_CLASS_DEFINE_H_
 
@@ -29,33 +17,33 @@ using namespace std;
 //pointer anymore.
 DECLEAR_INTERFACE(PersonIf){
 public:
-	virtual void eat()const = 0;
-	virtual void talk()const = 0;
-	virtual ~PersonIf(){}
+    virtual void eat()const = 0;
+    virtual void talk()const = 0;
+    virtual ~PersonIf(){}
 protected:
-	PersonIf(){
-		cout<<"Init Person"<<endl;
-	}
-	PersonIf& operator=(const PersonIf&);
-	PersonIf(const PersonIf&);
+    PersonIf(){
+        cout<<"Init Person"<<endl;
+    }
+    PersonIf& operator=(const PersonIf&);
+    PersonIf(const PersonIf&);
 };
 
 DECLEAR_CLASS_EX(Student, PersonIf){
 public:
     Student(){
-		cout<<"Init Student"<<endl;
-	}
-	virtual void eat() const;
-	virtual void talk()const;
+        cout<<"Init Student"<<endl;
+    }
+    virtual void eat() const;
+    virtual void talk()const;
 };
 
 DECLEAR_SINGLETON_CLASS_EX(StudentSingleton, PersonIf){
 public:
     StudentSingleton(){
-		cout<<"Init StudentSingleton"<<endl;
-	}
-	virtual void eat() const;
-	virtual void talk()const;
+        cout<<"Init StudentSingleton"<<endl;
+    }
+    virtual void eat() const;
+    virtual void talk()const;
 };
 
 
@@ -64,18 +52,6 @@ public:
 
 
 
+#endif  //__TEST_CLASS_DEFINE_H_
 
-
-
-
-
-
-
-
-
-
-
-
-#endif  //__TEST/CLASS_DEFINE_H_
-
-/* vim: set ts=4 sw=4 sts=4 tw=100 noet: */
+/* vim: set expandtab ts=8 sw=4 sts=4 tw=100 noet: */

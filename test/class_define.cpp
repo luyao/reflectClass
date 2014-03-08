@@ -1,20 +1,10 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 izptec.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- 
- 
-/**
- * @file test/class_define.cpp
- * @author YAO LU(luyao@izptec.com)
- * @date 2014/03/07 22:24:49
- * @version 1.0 
- * @brief 
- *  
- **/
+/** 
+ * @file class_define.cpp
+ * @Synopsis  
+ * @author Yao lu
+ * @version 1.0
+ * @date 2014-03-08
+ */
 
 #include <iostream>
 
@@ -23,23 +13,23 @@
 DEFINE_CLASS(Student);
 
 void Student::eat()const{
-	cout<<"Student eat"<<endl;
+    cout<<"Student eat"<<endl;
 }
 
 void Student::talk()const{
-	using namespace std;
-	cout<<"Student talk"<<endl;
+    using namespace std;
+    cout<<"Student talk"<<endl;
 }
 
 DEFINE_CLASS(StudentSingleton);
 
 void StudentSingleton::eat()const{
-	cout<<"StudentSingleton eat"<<endl;
+    cout<<"StudentSingleton eat"<<endl;
 }
 
 void StudentSingleton::talk()const{
-	using namespace std;
-	cout<<"StudentSingleton talk"<<endl;
+    using namespace std;
+    cout<<"StudentSingleton talk"<<endl;
 }
 
 
@@ -48,16 +38,4 @@ void StudentSingleton::talk()const{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* vim: set ts=4 sw=4 sts=4 tw=100 noet: */
+/* vim: set expandtab ts=8 sw=4 sts=4 tw=100 noet: */

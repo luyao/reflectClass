@@ -1,20 +1,10 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 izptec.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
-
-
-
-/**
- * @file test/reflect.cpp
- * @author YAO LU(luyao@izptec.com)
- * @date 2014/03/07 20:41:36
- * @version 1.0 
- * @brief 
- *  
- **/
+/** 
+ * @file reflect.cpp
+ * @Synopsis  
+ * @author Yao lu
+ * @version 1.0
+ * @date 2014-03-08
+ */
 
 #include <iostream>
 
@@ -41,15 +31,6 @@ int main()
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 
 
