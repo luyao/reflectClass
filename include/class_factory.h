@@ -86,6 +86,7 @@ namespace create_function{
     class class_name: public Register<class_name, \
                       class_name##Argv, create_function::SINGLETON<class_name> >
 
+//NOTICE: can not use virtual inheritance, we need the Death Diamond now
 #define DECLEAR_INTERFACE(class_name)\
     class class_name: public NamePrinter
 
@@ -107,12 +108,22 @@ namespace create_function{
 
 class ClassFactory{
 public:
+    /* -------------------------------*/
+    /** 
+     * @Synopsis  
+     * 
+     * @Param [in]name the class name
+     * 
+     * @Returns   the pointer of class object, NULL if the name isn't found
+     */
+    /* ---------------------------------*/
     static void *GetClass(const std::string & name){
         ClassFactoryDictCIter it_find = _getMap().find(name);
         if (it_find == _getMap().end())return NULL;
         else return it_find->second();
     }
 
+    //Users should nerver call this method
     static void RegistClass(const std::string &name, CreateFuntion method){
         _getMap().insert(ClassFactoryDict::value_type(name, method));
     }
@@ -141,6 +152,7 @@ static ClassFactoryDict& _getMap(){
     return  _map;
 }
 
+//NOTICE: can not use virtual inheritance, too
 template <typename T, const char *name, CreateFuntion Create=create_function::DEFAULT<T> > 
 class Register : public NamePrinter{
 public:
