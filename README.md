@@ -5,24 +5,35 @@ This file is used to implement the reflection with c++;
 it's very simple, and support c++0x well(acturly, there only a little c++11 features...).
 
 1. How to use it?
+
    Step0: include the header file class_factory.h
+   
    Step1: Declear your class or interface in some header file(etc ./test/class_define.h), you can:
-          Declear the interface class with macro "DECLEAR_INTERFACE"                                                 or
-          Declear the singleton class with macro "DECLEAR_SINGLETON_CLASS"                                           or
-          Declear the class which is inherited from the base_class with macro "DECLEAR_CLASS_EX"                     or
-          Declear the singleton class which is inherited from the base_class with macro "DECLEAR_SINGLETON_CLASS_EX" or
-          Declear the ordinery class with macro "DECLEAR_CLASS"
-   Step2: Define the class you decleard in step1 in some source files(etc ./test/class_define.cpp), only 
-          using the macro DEFINE_CLASS
+           
+           Declear the interface class with macro "DECLEAR_INTERFACE"                                                 or            
+           Declear the singleton class with macro "DECLEAR_SINGLETON_CLASS"                                           or
+          
+           Declear the class which is inherited from the base_class with macro "DECLEAR_CLASS_EX"                     or
+          
+           Declear the singleton class which is inherited from the base_class with macro "DECLEAR_SINGLETON_CLASS_EX" or
+          
+           Declear the ordinery class with macro "DECLEAR_CLASS"
+           
+   Step2: Define the class you decleard in step1 in some source files(etc ./test/class_define.cpp), only using the macro DEFINE_CLASS
+   
    Step3: you can get the pointer of the class with (class_name*)ClassFactory::GetClass(class_name);
 
 2. example:
+
    $make
+   
    $./reflect
    
-3. Bugs and grammar mistakes can be report to yaolu1103@gmail.com
+3. Bugs and grammar mistakes(:-)) can be report to yaolu1103@gmail.com
 
 4. License 
+
+
 Copyright (c) 2014 Yao Lu All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
