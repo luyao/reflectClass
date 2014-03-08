@@ -1,3 +1,12 @@
+/** 
+ * @file class_factory.h
+ * @Synopsis  
+ *
+ * @author Yao Lu(yaolu1103@gmail.com) 
+ * @version 1.0
+ * @date 2014-03-08
+ */
+
 #ifndef  __CLASS_FACTORY_H_
 #define  __CLASS_FACTORY_H_
 
@@ -13,102 +22,108 @@ static ClassFactoryDict& _getMap();
 
 class NamePrinter{
 public:
-	NamePrinter():name_("Base class"){}
+    NamePrinter():name_("Base class"){}
 
-	explicit NamePrinter(const std::string &name):name_(name){}
+    explicit NamePrinter(const char *name):name_(name){}
 
-	virtual std::string GetClassName()const{
-		return name_;
-	}
+    virtual const char* GetClassName()const{
+        return name_;
+    }
 
-	virtual ~NamePrinter(){}
+    virtual ~NamePrinter(){}
 protected:
-	std::string name_;
+    const char *name_;
 };
 
-#define DEFINE_CLASS(class_name) \
-	extern char class_name##Argv[];\
-	class class_name: public Register<class_name, class_name##Argv>
+namespace create_function{
+    template<typename T>
+    void *DEFAULT(){return new (std::nothrow) T;}
+    template<typename T>
+    void *SINGLETON(){static T instance; return &instance;}
+}
 
-#define DEFINE_INTERFACE(class_name)\
-	class class_name: public NamePrinter
+
+#define DECLEAR_CLASS(class_name) \
+    extern char class_name##Argv[];\
+    class class_name: public Register<class_name, class_name##Argv>
+
+#define DECLEAR_SINGLETON_CLASS(class_name) \
+    extern char class_name##Argv[];\
+    class class_name: public Register<class_name, \
+                      class_name##Argv, create_function::SINGLETON<class_name> >
+
+
+
+#define DECLEAR_INTERFACE(class_name)\
+    class class_name: public NamePrinter
 
 //if you define the class in the header file, you must declear it in
 //the source file
 //TODO: find a subsitution of the solution
-#define DECLEAR_CLASS(class_name) \
-	char class_name##Argv[] = #class_name;
+#define DEFINE_CLASS(class_name) \
+    char class_name##Argv[] = #class_name;
 
-#define DEFINE_CLASS_EX(class_name, father_class)\
-	extern char class_name##Argv[];\
-	class class_name:public Register<class_name,class_name##Argv>, public father_class
+#define DECLEAR_CLASS_EX(class_name, father_class)\
+    extern char class_name##Argv[];\
+    class class_name:public Register<class_name,class_name##Argv>, public father_class
+
+#define DECLEAR_SINGLETON_CLASS_EX(class_name, father_class)\
+    extern char class_name##Argv[];\
+    class class_name:public Register<class_name,\
+                     class_name##Argv, create_function::SINGLETON<class_name> >,\
+                     public father_class
+
+
 
 class ClassFactory{
 public:
-	static void *GetClass(const std::string & name){
-		ClassFactoryDictCIter it_find = _getMap().find(name);
-		if (it_find == _getMap().end())return NULL;
-		else return it_find->second();
-	}
+    static void *GetClass(const std::string & name){
+        ClassFactoryDictCIter it_find = _getMap().find(name);
+        if (it_find == _getMap().end())return NULL;
+        else return it_find->second();
+    }
 
-	static void RegistClass(const std::string &name, CreateFuntion method){
-		_getMap().insert(ClassFactoryDict::value_type(name, method));
-	}
+    static void RegistClass(const std::string &name, CreateFuntion method){
+        _getMap().insert(ClassFactoryDict::value_type(name, method));
+    }
 private:
-	ClassFactory();
-	ClassFactory(const ClassFactory&);
-	ClassFactory& operator=(const ClassFactory&);
-};
+#if __cplusplus > 199711L //using c++0x
+    ClassFactory() = delete;
+    ClassFactory(const ClassFactory&) = delete;
+    ClassFactory& operator=(const ClassFactory&) = delete;
+#else
+    ClassFactory();
+    ClassFactory(const ClassFactory&);
+    ClassFactory& operator=(const ClassFactory&);  
+#endif
 
+};
 
 class RegistyClass {
 public:
-	RegistyClass(const std::string & name, CreateFuntion method) {
-		ClassFactory::RegistClass(name, method);
-	}
-	void init()const{}
-};
-
-enum CLASS_TYPE{
-	DEFAULT = 0,
-	SINGLETON,
-	SINGLETON_MULTI,
+    RegistyClass(const std::string & name, CreateFuntion method) {
+        ClassFactory::RegistClass(name, method);
+    }
 };
 
 static ClassFactoryDict& _getMap(){
-	static  ClassFactoryDict _map;
-	return  _map;
+    static  ClassFactoryDict _map;
+    return  _map;
 }
 
-template < class T, const char name[], int ClassType = DEFAULT> 
+template <typename T, const char *name, CreateFuntion Create=create_function::DEFAULT<T> > 
 class Register : public NamePrinter{
 public:
-	static void *CreateInstance() {
-		switch(ClassType){
-			case DEFAULT:
-				return new (std::nothrow) T;
-			case SINGLETON:
-				static T instance;
-				return &instance;
-			case SINGLETON_MULTI:
-			default:
-				return NULL;
-		};
-	}
-
-public:
-	static const RegistyClass cRegist_;
+    static const RegistyClass regist_;
 protected:
-	Register() : NamePrinter(name){
-		cRegist_.init();
-	}
-	//this class only be used as base class
+    //this class only be used as base class, 
+    //and the void make sure the static object is generated
+    Register() : NamePrinter(name){(void)regist_;} 
 };
 
-template < class T, const char name[], int ClassType>
-const RegistyClass
-Register<T, name, ClassType>::cRegist_(name, Register<T, name, ClassType>::CreateInstance);
+template < class T, const char *name, CreateFuntion Create> 
+const RegistyClass Register<T, name, Create>::regist_(name, Create);
 
 #endif
 
-/* vim: set ts=4 sw=4 sts=4 tw=100 noet: */
+/* vim: set expandtab ts=256 sw=4 sts=2 tw=80 noet:*/

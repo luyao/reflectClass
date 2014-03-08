@@ -27,7 +27,7 @@ using namespace std;
 //if we want to declear an interface class, we'd better define it derictly.
 //But if we do that, we can using method GetClassName through the base class
 //pointer anymore.
-DEFINE_INTERFACE(PersonIf){
+DECLEAR_INTERFACE(PersonIf){
 public:
 	virtual void eat()const = 0;
 	virtual void talk()const = 0;
@@ -40,7 +40,7 @@ protected:
 	PersonIf(const PersonIf&);
 };
 
-DEFINE_CLASS_EX(Student, PersonIf){
+DECLEAR_CLASS_EX(Student, PersonIf){
 public:
     Student(){
 		cout<<"Init Student"<<endl;
@@ -48,6 +48,16 @@ public:
 	virtual void eat() const;
 	virtual void talk()const;
 };
+
+DECLEAR_SINGLETON_CLASS_EX(StudentSingleton, PersonIf){
+public:
+    StudentSingleton(){
+		cout<<"Init StudentSingleton"<<endl;
+	}
+	virtual void eat() const;
+	virtual void talk()const;
+};
+
 
 
 

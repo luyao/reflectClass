@@ -4,9 +4,9 @@
  * $Id$ 
  * 
  **************************************************************************/
- 
- 
- 
+
+
+
 /**
  * @file test/reflect.cpp
  * @author YAO LU(luyao@izptec.com)
@@ -25,12 +25,21 @@ using namespace std;
 
 int main()
 {
-	PersonIf *p = (PersonIf*)ClassFactory::GetClass("Student");
-	if (!p) {
-		cout<<"Get Nothing"<<endl;
-	}
-	cout<<p->GetClassName()<<endl;
-	return 0;
+    PersonIf *p = (PersonIf*)ClassFactory::GetClass("Student");
+    if (!p) {
+        cout<<"Get Nothing"<<endl;
+    }else{
+        cout<<p->GetClassName()<<endl;
+    }
+
+    p = (PersonIf*)ClassFactory::GetClass("StudentSingleton");
+    if (!p) {
+        cout<<"Get Nothing"<<endl;
+    }else{
+        cout<<p->GetClassName()<<endl;
+    }
+
+    return 0;
 }
 
 
@@ -49,4 +58,4 @@ int main()
 
 
 
-/* vim: set ts=4 sw=4 sts=4 tw=100 noet: */
+/* vim: set expandtab ts=256 sw=4 sts=4 tw=100 noet: */
