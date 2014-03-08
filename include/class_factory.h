@@ -22,13 +22,11 @@ static ClassFactoryDict& _getMap();
 
 class NamePrinter{
 public:
-    NamePrinter():name_("Base class"){}
+    NamePrinter():name_("Base class"){}  //sometime we need default
 
     explicit NamePrinter(const char *name):name_(name){}
 
-    virtual const char* GetClassName()const{
-        return name_;
-    }
+    virtual const char* GetClassName()const{return name_;}
 
     virtual ~NamePrinter(){}
 protected:
@@ -42,7 +40,6 @@ namespace create_function{
     void *SINGLETON(){static T instance; return &instance;}
 }
 
-
 #define DECLEAR_CLASS(class_name) \
     extern char class_name##Argv[];\
     class class_name: public Register<class_name, class_name##Argv>
@@ -52,14 +49,11 @@ namespace create_function{
     class class_name: public Register<class_name, \
                       class_name##Argv, create_function::SINGLETON<class_name> >
 
-
-
 #define DECLEAR_INTERFACE(class_name)\
     class class_name: public NamePrinter
 
 //if you define the class in the header file, you must declear it in
 //the source file
-//TODO: find a subsitution of the solution
 #define DEFINE_CLASS(class_name) \
     char class_name##Argv[] = #class_name;
 
@@ -72,7 +66,6 @@ namespace create_function{
     class class_name:public Register<class_name,\
                      class_name##Argv, create_function::SINGLETON<class_name> >,\
                      public father_class
-
 
 
 class ClassFactory{
