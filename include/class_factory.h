@@ -90,8 +90,8 @@ namespace create_function{
 #define DECLEAR_INTERFACE(class_name)\
     class class_name: public NamePrinter
 
-//if you define the class in the header file, you must declear it in
-//the source file
+//if you using any DECLEAR_* macro  in the header file, you MUST call
+//DEFINE_CLASS in the source file
 #define DEFINE_CLASS(class_name) \
     char class_name##Argv[] = #class_name;
 
@@ -112,7 +112,7 @@ public:
     /** 
      * @Synopsis  
      * 
-     * @Param [in]name the class name
+     * @Param [in]name: the class name
      * 
      * @Returns   the pointer of class object, NULL if the name isn't found
      */
